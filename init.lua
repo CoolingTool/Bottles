@@ -1,7 +1,7 @@
 math.random(os.time())
 
 _G.discordia = require('discordia')
-_G.client = discordia.Client()
+_G.bot = discordia.Client()
 
 local fs = require("coro-fs")
 local json = require("json")
@@ -29,16 +29,16 @@ local function detectCommand(message)
 end
 
 local function runCommand(path, ...)
-	return dofile('./commands/'..path)(...)
+	return dofile('./cmds/'..path)(...)
 end
 
 
 
-client:on('ready', function()
-	print('Logged in as '.. client.user.username)
+bot:on('ready', function()
+	print('Logged in as '.. bot.user.username)
 end)
 
-client:on('messageCreate', function(message)
+bot:on('messageCreate', function(message)
 	local command, trail = detectCommand(message)
 	if not command then return end
 
@@ -46,10 +46,10 @@ client:on('messageCreate', function(message)
 		message.channel:send{content='Pong!', reference={message=message, mention=false}}
 	end
 
-	if command == 'saxophone' or command == 'user' or command == 'emojizip' then
-		runCommand(command,message)
+	if command == 'saxophone' or command == 'user' or command == 'emojizip' or command == 'lua' then
+		runCommand(command,message,trail)
 	end
 end)
 
 
-client:run('Bot '..fs.readFile("TOKEN"))
+bot:run('Bot '..fs.readFile("TOKEN"))
