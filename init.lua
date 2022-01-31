@@ -51,5 +51,4 @@ bot:on('messageCreate', function(message)
 	end
 end)
 
-
-bot:run('Bot '..fs.readFile("TOKEN"))
+bot:run('Bot '..(process.env.TOKEN or assert(fs.readFile("TOKEN"))))
