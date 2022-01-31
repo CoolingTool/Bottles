@@ -5,6 +5,7 @@ local http = require("coro-http")
 local split = require("coro-split")
 local url = require("url")
 local path = require("path")
+local uv = require("uv")
 
 return function(message)
 	local guild = message.guild
@@ -22,8 +23,7 @@ return function(message)
 	local ping = message:reply("Please wait")
 	message.channel:broadcastTyping()
 
-
-
+	local start = uv.hrtime()/1000000000
 	local emojisLeft = guild.emojis:toArray()
 	local writer = miniz.new_writer()
 
@@ -32,11 +32,11 @@ return function(message)
 			-- table.remove returns removed item 
 			local emoji = table.remove(emojisLeft)
 
-			p('downloading '..emoji.name, #emojisLeft)
+			--p('downloading '..emoji.name, #emojisLeft)
 
 			local ok, res, data = pcall(http.request, 'GET', emoji.url)
 
-			p('downloaded '..emoji.name)
+			--p('downloaded '..emoji.name)
 
 			if ok then
 				local ext = path.extname(url.parse(emoji.url).pathname)
@@ -48,20 +48,25 @@ return function(message)
 	end
 
 	-- parallel downloading baby
-	split(downloader, downloader, downloader)
+	split(downloader, downloader, downloader, downloader)
 
 	ping:setContent("Uploading")
 
 	local zip = writer:finalize()
 
 	if zip then
-		local ok = message:reply{file={"emojis.zip",zip}}
-
-		if not ok then
-			message:reply("Upload failed. (likely because the file was too big)")
-		end
+		local ok, res = message:reply{content="took `????` seconds", file={"emojis.zip",zip}}
+		local endtime = string.format("%.2f", uv.hrtime()/1000000000-start)
 
 		ping:delete()
+
+
+		if not ok then
+			message:reply("Upload failed. "..res)
+		else
+			ok:setContent("took `"..endtime.."` seconds")
+		end
+
 	else
 		message:reply("Command failed.")
 	end
