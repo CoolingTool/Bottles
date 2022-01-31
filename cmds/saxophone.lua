@@ -1,4 +1,4 @@
-local e = require("shortcodes"):makeEmojiLookupTable()
+local e = require("tles").emoji.index
 
 local list = {
     'monkey', 'bird', 'baby_chick',
