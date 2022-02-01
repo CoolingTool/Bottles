@@ -2,15 +2,14 @@ math.random(os.time())
 
 _G.discordia = require('discordia')
 _G.bot = discordia.Client()
+_G.tles = require("tles")
 
 local fs = require("coro-fs")
 local json = require("json")
 local dofile = require("dofile")
 
 
-
 local gprefix = '!'
-
 
 
 local function detectCommand(message)
@@ -50,5 +49,8 @@ bot:on('messageCreate', function(message)
 		runCommand(command,message,trail)
 	end
 end)
+
+--repl
+if process.env.REPL_OWNER ~= nil then tles.keepAlive.start() end
 
 bot:run('Bot '..(process.env.TOKEN or assert(fs.readFile("TOKEN"))))
