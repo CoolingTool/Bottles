@@ -21,14 +21,23 @@ local function detectCommand(message)
 		-- first word after prefix is command
 		local i, j = string.find(content, "%w+", #gprefix+1)
 
-		return content:sub(i,j), content:sub(j+1)
+			if i then
+				return content:sub(i,j), content:sub(j+1)
+			else 
+			  return nil
+			end
 	end
 
 	return nil
 end
 
-local function runCommand(path, ...)
-	return dofile('./cmds/'..path)(...)
+local function runCommand(path, message, ...)
+  local f = dofile('./cmds/'..path)
+	local ok, err = pcall(f, message, ...)
+
+  if not ok then
+    message:reply("command failed, reason: "..err)
+  end
 end
 
 
