@@ -25,7 +25,7 @@ local function detectCommand(message)
 
 		local command, trail = l.match(cmdPatt, content, #gprefix+1)
     
-        if command then
+    	if command then
 			return command:lower(), trail
 		else 
 			return nil
