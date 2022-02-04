@@ -6,26 +6,27 @@ _G.discordia = require('discordia')
 _G.bot = discordia.Client{logFile=isrepl and '' or 'bot.log'}
 _G.tles = require("tles")
 
+local patts = tles.patts
 local fs = require("coro-fs")
 local json = require("json")
 local dofile = require("dofile")
+local l = require("lpeg")
 
 
 local gprefix = '!'
 
 
+local cmdPatt = patts.s^0 * l.C(patts.w^1) * patts.s^0 * l.C(l.P(1)^0)
 local function detectCommand(message)
 	local content = message.content
 
 	-- starts with prefix
-	if string.find(content, gprefix, 1, true) == 1 then
+	if tles.startswith(content, gprefix) then
 
-		-- first word after prefix is command
-		local i, j = string.find(content, "%w+", #gprefix+1)
-
-		if i then
-            -- return command name and everything after command name
-			return content:sub(i,j):lower(), tles.trim(content:sub(j+1))
+		local command, trail = l.match(cmdPatt, content, #gprefix+1)
+    
+        if command then
+			return command:lower(), trail
 		else 
 			return nil
 		end
