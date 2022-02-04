@@ -19,21 +19,14 @@ local gprefix = '!'
 local cmdPatt = patts.s^0 * l.C(patts.w^1) * patts.s^0 * l.C(l.P(1)^0)
 local function detectCommand(message)
 	local content = message.content
-
-	-- starts with prefix
 	if tles.startswith(content, gprefix) then
 
 		local command, trail = l.match(cmdPatt, content, #gprefix+1)
 	
-		p(command, trail)
-
     	if command then
-			return command:lower(), trail
-		else 
-			return nil
+			return command:lower(), trail ~= '' and trail or nil
 		end
 	end
-
 	return nil
 end
 
