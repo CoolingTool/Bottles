@@ -55,7 +55,7 @@ bot:on('messageCreate', function(message)
 		message.channel:send{content='Pong!', reference={message=message, mention=false}}
 	end
 
-	if command == 'thumbsup' or command == 'saxophone' or command == 'user' or command == 'emojipack' or command == 'lua' then
+	if command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' then
 		runCommand(command,message,trail)
 	end
 end)
