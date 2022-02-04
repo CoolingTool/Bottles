@@ -51,10 +51,6 @@ bot:on('messageCreate', function(message)
 	local command, trail = detectCommand(message)
 	if not command then return end
 
-	if command == 'ping' then
-		message.channel:send{content='Pong!', reference={message=message, mention=false}}
-	end
-
 	if command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' then
 		runCommand(command,message,trail)
 	end
