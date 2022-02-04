@@ -24,7 +24,9 @@ local function detectCommand(message)
 	if tles.startswith(content, gprefix) then
 
 		local command, trail = l.match(cmdPatt, content, #gprefix+1)
-    
+	
+		p(command, trail)
+
     	if command then
 			return command:lower(), trail
 		else 
