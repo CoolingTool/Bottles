@@ -1,7 +1,9 @@
 math.random(os.time())
 
+_G.isrepl = process.env.REPL_OWNER
+
 _G.discordia = require('discordia')
-_G.bot = discordia.Client()
+_G.bot = discordia.Client{logfile=isrepl and '' or 'bot.log'}
 _G.tles = require("tles")
 
 local fs = require("coro-fs")
@@ -57,6 +59,6 @@ bot:on('messageCreate', function(message)
 end)
 
 --repl
-if process.env.REPL_OWNER ~= nil then tles.keepAlive.start() end
+if isrepl then tles.keepAlive.start() end
 
 bot:run('Bot '..(process.env.TOKEN or assert(fs.readFile("TOKEN"))))
