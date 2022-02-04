@@ -5,6 +5,7 @@ _G.isrepl = process.env.REPL_OWNER
 _G.discordia = require('discordia')
 _G.bot = discordia.Client{logFile=isrepl and '' or 'bot.log'}
 _G.tles = require("tles")
+_G.e = tles.emoji.index
 
 local patts = tles.patts
 local fs = require("coro-fs")
@@ -49,7 +50,7 @@ bot:on('messageCreate', function(message)
 	local command, trail = detectCommand(message)
 	if not command then return end
 
-	if command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' then
+	if command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
 		runCommand(command,message,trail)
 	end
 end)
