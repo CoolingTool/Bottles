@@ -1,4 +1,4 @@
-local e = require("tles").emoji.index
+local e = tles.emoji.index
 
 local list = {
     'monkey', 'bird', 'baby_chick',

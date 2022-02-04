@@ -22,7 +22,7 @@ local function detectCommand(message)
 		local i, j = string.find(content, "%w+", #gprefix+1)
 
 		if i then
-      -- return command name and everything after command name
+            -- return command name and everything after command name
 			return content:sub(i,j):lower(), tles.trim(content:sub(j+1))
 		else 
 			return nil
@@ -33,12 +33,12 @@ local function detectCommand(message)
 end
 
 local function runCommand(path, message, ...)
-  local f = dofile('./cmds/'..path)
-	local ok, err = pcall(f, message, ...)
+    local ok, err = pcall(dofile, './cmds/'..path)
+	if ok then ok, err = pcall(err, message, ...) end
 
-  if not ok then
-    message:reply("command failed, reason: "..err)
-  end
+    if not ok then
+        message:reply("command failed, reason: "..err)
+    end
 end
 
 
