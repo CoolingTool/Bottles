@@ -6,5 +6,5 @@ return function(message, content)
     	return
     end
 
-    message:reply("hi "..tles.trim(content))
+    message:reply("hi "..content)
 end

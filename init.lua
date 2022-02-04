@@ -21,11 +21,12 @@ local function detectCommand(message)
 		-- first word after prefix is command
 		local i, j = string.find(content, "%w+", #gprefix+1)
 
-			if i then
-				return content:sub(i,j), content:sub(j+1)
-			else 
-			  return nil
-			end
+		if i then
+      -- return command name and everything after command name
+			return content:sub(i,j), tles.trim(content:sub(j+1))
+		else 
+			return nil
+		end
 	end
 
 	return nil
@@ -54,7 +55,7 @@ bot:on('messageCreate', function(message)
 		message.channel:send{content='Pong!', reference={message=message, mention=false}}
 	end
 
-	if command == 'saxophone' or command == 'user' or command == 'emojizip' or command == 'lua' then
+	if command == 'thumbsup' or command == 'saxophone' or command == 'user' or command == 'emojizip' or command == 'lua' then
 		runCommand(command,message,trail)
 	end
 end)
