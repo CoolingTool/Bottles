@@ -23,7 +23,7 @@ local function detectCommand(message)
 
 		if i then
       -- return command name and everything after command name
-			return content:sub(i,j), tles.trim(content:sub(j+1))
+			return content:sub(i,j):lower(), tles.trim(content:sub(j+1))
 		else 
 			return nil
 		end

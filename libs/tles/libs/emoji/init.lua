@@ -9,8 +9,10 @@ emoji.categories = json.parse(assert(fs.readFile(path.resolve(module.dir,"emojis
 emoji.shortcuts = json.parse(assert(fs.readFile(path.resolve(module.dir,"emoji-shortcuts.json"))))
 
 emoji.index = {}
+emoji.list = {}
 
 local function indexEmoji(e)
+  table.insert(emoji.list, e)
 	for i, n in pairs(e.names) do
 		emoji.index[n] = e.surrogates
 	end

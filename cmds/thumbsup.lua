@@ -1,10 +1,14 @@
-local e = require("tles").emoji.index
-
-local keys = {}
-for i in pairs(e) do
-  keys[#keys+1] = i
-end
+local list = tles.emoji.list
 
 return function(message)
-    message:reply(e[keys[math.random(#keys)]]..e.thumbsup)
+  local emoji = list[math.random(#list)]
+
+  local thumbsup = tles.emoji.index.thumbsup
+  if emoji.diversity then
+    local b = tonumber(emoji.diversity[#emoji.diversity], 16)
+
+    thumbsup = thumbsup .. utf8.char(b)
+  end
+
+  message:reply(emoji.surrogates..thumbsup)
 end
