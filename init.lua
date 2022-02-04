@@ -3,7 +3,7 @@ math.random(os.time())
 _G.isrepl = process.env.REPL_OWNER
 
 _G.discordia = require('discordia')
-_G.bot = discordia.Client{logfile=isrepl and '' or 'bot.log'}
+_G.bot = discordia.Client{logFile=isrepl and '' or 'bot.log'}
 _G.tles = require("tles")
 
 local fs = require("coro-fs")
