@@ -6,7 +6,7 @@ local makeModule = require('require')
 local join = path.join
 local resolve = path.resolve
 
-local errlvl = 5
+local errlvl = 0
 
 local cache = {}
 
