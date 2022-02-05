@@ -12,27 +12,37 @@ local resolveCache = {}
 local retCache = {}
 
 return function(ogpath, env)
-    local path = resolve(ogpath)
+    local path, stat
+	if resolveCache[ogpath] then
+		path = resolveCache[ogpath]
+		stat = fs.lstat(path)
+		if not stat then
+			err('could not find '..ogpath)
+		end
+	else
+		path = resolve(ogpath)
 
-    local attempt = 1
+		local attempt = 1
 
-    ::tryagain::
+		::tryagain::
 
-    local stat = fs.lstat(path)
+		stat = fs.lstat(path)
 
-    if stat then
-        if stat.type == 'directory' then
-            path = join(path, 'init.lua')
-        end
-    else
-        if attempt == 1 then
-            attempt = attempt + 1
-            path = path..'.lua'
-            goto tryagain
-        else
-            err('could not find '..ogpath)
-        end
-    end
+		if stat then
+			if stat.type == 'directory' then
+				path = join(path, 'init.lua')
+			end
+		else
+			if attempt == 1 then
+				attempt = attempt + 1
+				path = path..'.lua'
+				goto tryagain
+			else
+				err('could not find '..ogpath)
+			end
+			resolveCache[ogpath] = path
+		end
+	end
 
     local c = retCache[path]
     if c and c.mtime.sec > stat.mtime.sec then
