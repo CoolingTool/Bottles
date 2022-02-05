@@ -1,9 +1,10 @@
 local list = tles.emoji.list
 
+
 return function(message)
   local emoji = list[math.random(#list)]
 
-  local thumbsup = tles.emoji.index.thumbsup
+  local thumbsup = math.random(1,100) == 1 and e.thumbsdown or e.thumbsup
 
   local d = emoji.diversity
   if d then

@@ -8,10 +8,11 @@ local resolve = path.resolve
 
 local errlvl = 0
 
-local cache = {}
+local resolveCache = {}
+local retCache = {}
 
-return function(path, env)
-    path = resolve(path)
+return function(ogpath, env)
+    local path = resolve(ogpath)
 
     local attempt = 1
 
@@ -29,11 +30,11 @@ return function(path, env)
             path = path..'.lua'
             goto tryagain
         else
-            err('could not find '..path)
+            err('could not find '..ogpath)
         end
     end
 
-    local c = cache[path]
+    local c = retCache[path]
     if c and c.mtime.sec > stat.mtime.sec then
         if not c.t[1] then err(c.t[2], errlvl) end
     
@@ -41,7 +42,7 @@ return function(path, env)
     end
 
     local fn, err = loadfile(path)
-    cache[path] = {mtime=stat.mtime,t={fn,err}}
+    retCache[path] = {mtime=stat.mtime,t={fn,err}}
     if not fn then error(err, errlvl) end
 
     local require, module = makeModule(path)
@@ -57,7 +58,7 @@ return function(path, env)
     
     -- use table.pack to accept file returning tuples
     local t = table.pack(pcall(fn))
-    cache[path] = {mtime=stat.mtime,t=t}
+    retCache[path] = {mtime=stat.mtime,t=t}
     if not t[1] then error(t[2], errlvl) end
 
     return select(2, table.unpack(t))
