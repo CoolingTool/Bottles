@@ -25,8 +25,8 @@ local function prettyLine(...)
 end
 
 return function(message, trail)
-	if message.author ~= bot.owner then message:reply(e.hear_no_evil) return end
-	if not trail then message:reply("exec yo mama") return end
+	if message.author ~= bot.owner then return message:reply(e.hear_no_evil) end
+	if not trail then return message:reply("exec yo mama") end
 	
 	local code = trail:match('^```lua\n(.-)```$') or trail 
 
