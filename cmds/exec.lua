@@ -1,7 +1,7 @@
 local pp = require('pretty-print')
 
 local global = setmetatable({
-	require=require, uv=require("uv"),
+	module=module, require=require, uv=require("uv"),
 },{__index=_G})
 
 pp.loadColors(16)

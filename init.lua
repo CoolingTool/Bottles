@@ -1,9 +1,8 @@
 math.random(os.time())
 
-_G.isrepl = process.env.REPL_OWNER
-
+_G.config = require('./loadconfig')
 _G.discordia = require('discordia')
-_G.bot = discordia.Client{logFile=isrepl and '' or 'bot.log'}
+_G.bot = discordia.Client{logFile=config.bools.noLogFile and '' or 'bot.log'}
 _G.tles = require("tles")
 _G.e = tles.emoji.index
 
@@ -14,7 +13,7 @@ local dofile = require("dofile")
 local l = require("lpeg")
 
 
-local gprefix = '!'
+local gprefix = config.prefix
 
 
 local cmdPatt = patts.s^0 * l.C(patts.w^1) * patts.s^0 * l.C(l.P(1)^0)
@@ -56,6 +55,6 @@ bot:on('messageCreate', function(message)
 end)
 
 --repl
-if isrepl then tles.keepAlive.start() end
+if config.bools.webserver then tles.keepAlive.start() end
 
-bot:run('Bot '..(process.env.TOKEN or assert(fs.readFile("TOKEN"))))
+bot:run('Bot '..(config.token))

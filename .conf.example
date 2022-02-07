@@ -1,0 +1,6 @@
+prefix = "!"
+token = "$TOKEN"
+
+[bools]
+webserver = false
+noLogFile = true
