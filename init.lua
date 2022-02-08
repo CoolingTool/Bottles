@@ -11,7 +11,7 @@ local fs = require("coro-fs")
 local json = require("json")
 local dofile = require("dofile")
 local l = require("lpeg")
-
+local uv = require("uv")
 
 local gprefix = config.prefix
 
@@ -43,13 +43,14 @@ end
 
 bot:on('ready', function()
 	print('Logged in as '.. bot.user.username)
+	_G.starttime = os.time()
 end)
 
 bot:on('messageCreate', function(message)
 	local command, trail = detectCommand(message)
 	if not command then return end
 
-	if command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
+	if command == 'uptime' or command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
 		runCommand(command,message,trail)
 	end
 end)
