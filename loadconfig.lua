@@ -1,4 +1,4 @@
-local ffi, ini = require("ffi"), require("ini")
+local ini = require("ini")
 
 local ok, config = pcall(ini.parse_file, ".conf")
 
