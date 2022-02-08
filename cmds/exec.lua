@@ -55,7 +55,7 @@ return function(message, trail)
 	if #lines > 0 then
 		local out = table.concat(lines, '\n')
 
-		local content = '>>> ```ansi\n'..table.concat(lines, '\n')..'```'
+		local content = '>>> ```ansi\n'..table.concat(lines, '\n')..'\n```'
 
 		if utf8.len(content) > 2000 then
 			assert(message:reply{file={'out.ansi',out}})
