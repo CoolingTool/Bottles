@@ -39,6 +39,10 @@ local function runCommand(path, message, ...)
     end
 end
 
+function canReply(message)
+    local user = message.author
+    return (message.type == 0 and user ~= user.client.user and user.bot ~= true and user.discriminator ~= '0000')
+end
 
 
 bot:on('ready', function()
@@ -47,10 +51,12 @@ bot:on('ready', function()
 end)
 
 bot:on('messageCreate', function(message)
+	if not canReply(message) then return end
+			
 	local command, trail = detectCommand(message)
 	if not command then return end
 
-	if command == 'uptime' or command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
+	if command == 'ask' or command == 'uptime' or command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
 		runCommand(command,message,trail)
 	end
 end)
