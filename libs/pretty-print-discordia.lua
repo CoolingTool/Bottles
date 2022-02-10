@@ -21,6 +21,7 @@ if not success then
   success, uv = pcall(require, 'luv')
 end
 assert(success, uv)
+local class = require("discordia").class
 local getenv = require('os').getenv
 
 local prettyPrint, dump, strip, color, colorize, loadColors
@@ -81,6 +82,10 @@ local themes = {
     failure      = "38;5;215;48;5;52",  -- bright red on dark red
     highlight    = "38;5;45;48;5;236",  -- bright teal on dark grey
   },
+}
+
+local expandable = {
+  Cache = true
 }
 
 local special = {
@@ -224,7 +229,8 @@ function dump(value, recurse, nocolor)
   end
 
   local function process(localValue)
-    local typ = type(localValue)
+    local typ, obj = type(localValue), class.isObject(localValue)
+    local iter = (not obj and typ == 'table') or obj and localValue.__class.__pairs
     if typ == 'string' then
       if string.find(localValue, "'") and not string.find(localValue, '"') then
         write(dquote)
@@ -235,16 +241,18 @@ function dump(value, recurse, nocolor)
         write(string.gsub(localValue, "[%c\\'\128-\255]", stringEscape))
         write(quote2)
       end
-    elseif typ == 'table' and not seen[localValue] then
+    elseif (#stack == 0 and obj and not iter) or (iter and not seen[localValue]) then
       if not recurse then seen[localValue] = true end
+      local pair = (not iter and localValue.__class.__getters) or localValue
       write(obrace)
       local i = 1
       -- Count the number of keys so we know when to stop adding commas
       local total = 0
-      for _ in pairs(localValue) do total = total + 1 end
+      for _ in pairs(pair) do total = total + 1 end
 
       local nextIndex = 1
-      for k, v in pairs(localValue) do
+      for k, v in pairs(pair) do
+        if not iter then v = v(localValue) end
         indent()
         if k == nextIndex then
           -- if the key matches the last numerical index + 1
@@ -363,6 +371,7 @@ end
 return {
   loadColors = loadColors,
   theme = theme,
+  expandable = expandable,
   print = print,
   prettyPrint = prettyPrint,
   dump = dump,

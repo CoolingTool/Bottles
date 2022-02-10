@@ -1,4 +1,4 @@
-local pp = require('pretty-print')
+local pp = require('pretty-print-discordia')
 
 local global = setmetatable({
 	module=module, require=require, uv=require("uv"),
