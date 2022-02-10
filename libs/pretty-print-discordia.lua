@@ -84,10 +84,6 @@ local themes = {
   },
 }
 
-local expandable = {
-  Cache = true
-}
-
 local special = {
   [7] = 'a',
   [8] = 'b',
@@ -371,7 +367,6 @@ end
 return {
   loadColors = loadColors,
   theme = theme,
-  expandable = expandable,
   print = print,
   prettyPrint = prettyPrint,
   dump = dump,
