@@ -3,7 +3,7 @@ math.random(os.time())
 _G.config = require('loadconfig')
 _G.discordia = require('discordia')
 _G.p = require('pretty-print-discordia').prettyPrint
-_G.bot = discordia.Client{logFile=config.bools.noLogFile and '' or 'bot.log'}
+_G.bot = discordia.Client{logFile=config.bools.noLogFile and '' or 'bot.log', cacheAllMembers = true}
 _G.tles = require("tles")
 _G.e = tles.emoji.index
 
