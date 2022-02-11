@@ -1,7 +1,13 @@
-local pp = require('pretty-print-discordia')
+local pp = require('pretty-print')
+local l = require('lpeg')
+local patts = tles.patts
+
+local tokenPatt = l.Cs((patts.w^-24*'.'*patts.w^6*'.'*patts.w^27/"[REDACTED]"+1)^0)
 
 local global = setmetatable({
 	module=module, require=require, uv=require("uv"),
+	l=l, patts=patts, fs=require("coro-fs"),
+	json=require("json"),
 },{__index=_G})
 
 pp.loadColors(16)
@@ -25,7 +31,7 @@ local function prettyLine(...)
 end
 
 return function(message, trail)
-	if message.author ~= bot.owner then return message:reply(e.hear_no_evil) end
+	if message.author.id ~= config.ownerid then return message:reply(e.hear_no_evil) end
 	if not trail then return message:reply("exec yo mama") end
 	
 	local code = trail:match('^```lua\n(.-)```$') or trail 
@@ -53,9 +59,9 @@ return function(message, trail)
 	if t.i > 0 then sandbox.p(tles.tupleUnpack(t)) end
 
 	if #lines > 0 then
-		local out = table.concat(lines, '\n')
+		local out = l.match(tokenPatt, table.concat(lines, '\n'))
 
-		local content = '```ansi\n'..table.concat(lines, '\n')..'\n```'
+		local content = '```ansi\n'..out..'\n```'
 
 		if utf8.len(content) > 4048 then
 			message:reply{file={'message.ansi',out}}

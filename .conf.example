@@ -1,5 +1,6 @@
 prefix = "!"
 token = "$TOKEN"
+ownerid = 1
 
 [bools]
 webserver = false

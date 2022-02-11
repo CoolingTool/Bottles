@@ -25,3 +25,9 @@ end
 function exports.tupleUnpack(packed)
 	return table.unpack(packed, 1, packed.i)
 end
+
+
+function exports.round(n, i)
+	local m = 10 ^ (i or 0)
+	return math.floor(n * m + 0.5) / m
+end

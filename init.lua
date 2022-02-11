@@ -2,8 +2,7 @@ math.random(os.time())
 
 _G.config = require('loadconfig')
 _G.discordia = require('discordia')
-_G.p = require('pretty-print-discordia').prettyPrint
-_G.bot = discordia.Client{logFile=config.bools.noLogFile and '' or 'bot.log', cacheAllMembers = true}
+_G.bot = discordia.Client{logFile=config.bools.noLogFile and '' or 'bot.log'}
 _G.tles = require("tles")
 _G.e = tles.emoji.index
 
@@ -47,8 +46,8 @@ end
 
 
 bot:on('ready', function()
-	print('Logged in as '.. bot.user.username)
-	_G.starttime = os.time()
+	if _G.lastConnectionTime then _G.lastConnectionTime:stop() end
+	_G.lastConnectionStartTime = discordia.Stopwatch()
 end)
 
 bot:on('messageCreate', function(message)
@@ -65,4 +64,4 @@ end)
 --repl
 if config.bools.webserver then tles.keepAlive.start() end
 
-bot:run('Bot '..(config.token))
+bot:run(config.token)
