@@ -1,7 +1,8 @@
 local pp = require('pretty-print-discordia')
 
 local global = setmetatable({
-	module=module, require=require, uv=require("uv"),
+	module=module, require=require, uv=require("uv"), l=require("lpeg"), patts=tles.patts,
+	fs=require("coro-fs"), json=require("json"),
 },{__index=_G})
 
 pp.loadColors(16)
@@ -58,7 +59,7 @@ return function(message, trail)
 		local content = '```ansi\n'..table.concat(lines, '\n')..'\n```'
 
 		if utf8.len(content) > 4048 then
-			message:reply{file={'message.ansi',out}}
+			message:reply{file={'message.ansi',out..'\n'}}
 		elseif utf8.len(content) > 2000 then
 			message:reply{embed={description=content}}
 		else
