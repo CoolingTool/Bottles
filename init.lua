@@ -42,9 +42,8 @@ end
 
 function canReply(message)
     local user = message.author
-    return (message.type == 0 and user ~= user.client.user and user.bot ~= true and user.discriminator ~= '0000')
+    return (message.type == 0 and user ~= user.client.user)
 end
-
 
 bot:on('ready', function()
 	print('Logged in as '.. bot.user.username)
@@ -57,7 +56,7 @@ bot:on('messageCreate', function(message)
 	local command, trail = detectCommand(message)
 	if not command then return end
 
-	if command == 'ask' or command == 'uptime' or command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
+	if command == 'gjrng' or command == 'ask' or command == 'uptime' or command == 'thumbsup' or command == 'saxophone' or command == 'emojipack' or command == 'exec' then
 		runCommand(command,message,trail)
 	end
 end)

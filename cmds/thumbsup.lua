@@ -2,7 +2,7 @@ local list = tles.emoji.list
 
 
 return function(message)
-  local emoji = list[math.random(#list)]
+  local emoji = list[tles.uvrandom(1, #list)]
 
   local thumbsup = math.random(1,100) == 1 and e.thumbsdown or e.thumbsup
 
