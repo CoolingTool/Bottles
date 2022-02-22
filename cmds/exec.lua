@@ -25,6 +25,15 @@ local function prettyLine(...)
     return table.concat(ret, '\t')
 end
 
+local function prettyLineStrip(...)
+    local ret = {}
+    for i = 1, select('#', ...) do
+		local arg = pp.strip(pp.dump(select(i, ...)))
+        table.insert(ret, arg)
+    end
+    return table.concat(ret, '\t')
+end
+
 return function(message, trail)
 	if message.author ~= bot.owner then return message:reply(e.hear_no_evil) end
 	if not trail then return message:reply("exec yo mama") end
@@ -41,6 +50,7 @@ return function(message, trail)
 
 	sandbox.print = function(...) table.insert(lines, printLine(...)) end
     sandbox.p = function(...) table.insert(lines, prettyLine(...)) end
+	sandbox.ps = function(...) table.insert(lines, prettyLineStrip(...)) end
 	
 	local f, err = load('return '..code, "EXEC", 't', sandbox)
 	if err then
