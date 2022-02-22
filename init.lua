@@ -1,15 +1,14 @@
 _G.config = require('loadconfig')
+---@type discordia
 _G.discordia = require('discordia')
 _G.bot = discordia.Client{logFile=config.bools.noLogFile and '' or 'bot.log'}
 _G.tles = require("tles")
 _G.e = tles.emoji.index
 
 local patts = tles.patts
-local fs = require("coro-fs")
-local json = require("json")
 local dofile = require("dofile")
 local l = require("lpeg")
-local uv = require("uv")
+
 
 local gprefix = config.prefix
 
@@ -37,13 +36,14 @@ local function runCommand(path, message, ...)
     end
 end
 
-function canReply(message)
+local function canReply(message)
     local user = message.author
     return (message.type == 0 and user ~= user.client.user and user.bot ~= true and user.discriminator ~= '0000')
 end
 
 
 bot:on('ready', function()
+	---@diagnostic disable-next-line: undefined-field
 	if _G.lastConnectionTime then _G.lastConnectionTime:stop() end
 	_G.lastConnectionStartTime = discordia.Stopwatch()
 end)

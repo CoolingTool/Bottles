@@ -1,0 +1,10 @@
+{
+    "Lua.runtime.version": "LuaJIT",
+    "Lua.runtime.builtin": {
+        "utf8": "enable"
+    },
+    "Lua.diagnostics.globals": [
+        "utf8",
+        "process"
+    ]
+}
