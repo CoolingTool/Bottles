@@ -1,13 +1,19 @@
-# deps
+this bot is very early development so i dont know why you are here or how you got here
 
-## lit
-```
-lit install SinisterRectus/discordia creationix/coro-fs creationix/coro-split
-```
-## git
-```
-git clone https://github.com/Bilal2453/lit-vips.git deps/vips
+im not giving out the invite yet 
+
+# install
+
+```bash
+git clone https://github.com/CoolingTool/Bottles
+cd Bottles
+lit install
 curl https://raw.githubusercontent.com/lzubiaur/ini.lua/master/ini.lua -o deps/ini.lua
 ```
-## required libraries
-[vips](https://repology.org/project/vips/versions)
+then copy the `.conf.example` file to `.conf` and change the values accordingly
+
+> it accepts environment variables (prefixed with $) for support with replit secrets
+
+# windows 
+
+probably will work on windows since luvit is cross platform but i havent tested

@@ -21,7 +21,9 @@ if not success then
   success, uv = pcall(require, 'luv')
 end
 assert(success, uv)
-local class = require("discordia").class
+---@type discordia
+local discordia = require('discordia')
+local class = discordia.class
 local getenv = require('os').getenv
 
 local prettyPrint, dump, strip, color, colorize, loadColors

@@ -3,4 +3,4 @@ token = "$TOKEN"
 
 [bools]
 webserver = false
-noLogFile = true
+noLogFile = false

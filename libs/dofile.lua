@@ -17,7 +17,7 @@ return function(ogpath, env)
 		path = resolveCache[ogpath]
 		stat = fs.lstat(path)
 		if not stat then
-			err('could not find '..ogpath)
+			error('could not find '..ogpath)
 		end
 	else
 		path = resolve(ogpath)
@@ -38,7 +38,7 @@ return function(ogpath, env)
 				path = path..'.lua'
 				goto tryagain
 			else
-				err('could not find '..ogpath)
+				error('could not find '..ogpath)
 			end
 			resolveCache[ogpath] = path
 		end
@@ -46,7 +46,7 @@ return function(ogpath, env)
 
     local c = retCache[path]
     if c and c.mtime.sec > stat.mtime.sec then
-        if not c.t[1] then err(c.t[2], errlvl) end
+        if not c.t[1] then error(c.t[2], errlvl) end
     
         return select(2, table.unpack(c.t))
     end
