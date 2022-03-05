@@ -8,3 +8,4 @@ deps
 discordia.log
 bot.log
 gateway.json
+error_log.txt
