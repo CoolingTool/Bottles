@@ -1,1 +1,0 @@
-these json files come from the discord apk, dont remember which folder but it was easy to find
